@@ -1,7 +1,7 @@
 import numpy as np
 
 class Body:
-    def __init__(self, mass: list, position: np.ndarray, velocity: np.ndarray, acceleration: np.ndarray):
+    def __init__(self, mass: float, position: np.ndarray, velocity: np.ndarray = np.array([0,0]), acceleration: np.ndarray = np.array([0,0])):
         self.position = position
         self.mass = mass
         self.vel = velocity
