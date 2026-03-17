@@ -10,7 +10,7 @@ sys.setrecursionlimit(10000)
 #print(sys.getrecursionlimit())
 
 bodies = []
-for i in range(5):
+for i in range(1000):
     bodies.append(body.Body(random.randint(1, 15), np.array([random.randint(0, 100), random.randint(0, 100), ])))
 
 

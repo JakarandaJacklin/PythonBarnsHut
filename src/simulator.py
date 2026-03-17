@@ -61,9 +61,6 @@ def quadForceCalc(quad : qt.Quad, body : bd.Body):
 
     if compareTheta(quad, body, dist) == True:
         lot = calcForce(quad.mass, body.mass, dist, quad.COM, body.position)
-        if lot is None: # for debugging
-            print("LOT IS NONE")
-            return lot
         return lot
     
     # Case two, where we need to delve into the tree itself:
@@ -71,19 +68,8 @@ def quadForceCalc(quad : qt.Quad, body : bd.Body):
         forces = []
         for i in quad.Children:
             f = quadForceCalc(i, body)
-            if f is None:
-                print(f)
-                print(i, body)
-                print(i.COM, body.position)
-                print(dist)
-                print(calcForce(i.mass, body.mass, dist, i.COM, body.position))
-                print(" END THIS TRAIN ")
-        #print("hehe", forces)#
-        #print(quad.Children)
         return(np.sum(forces, axis=0))
-        #return forces
-    #print("Poppycock")
-    #print(compareTheta(quad, body, dist))
+        
     
 def bodyForceSum(quad, bodies):
     for i in bodies:
