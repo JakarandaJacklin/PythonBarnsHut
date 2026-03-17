@@ -2,9 +2,10 @@ import body
 import numpy as np
 
 """
-This file has all the functions and code for step one of the Barnes Hut Tree Algorithm.
-That means it contains all the code for BUILDING the Quad Tree.
+This file has all the functions and code for steps one and two the Barnes Hut Tree Algorithm.
+That means it contains all the code for BUILDING the Quad Tree and finding the COM.
 """
+
 
 class Quad:
     """
@@ -12,6 +13,7 @@ class Quad:
     They also contain all the bodies of the quadrant for later processing, as well as mass and COM
     and children references. The building boxes of Quadtree.
     """
+
     def __init__(self, pos, size):
       # Set up the basic information about the quad
       self.pos = pos #As a np.array
@@ -36,6 +38,8 @@ class Quad:
            print("and for my children at level", level)
            for i in self.Children:
                i.deepReport(level + 1, mass)
+
+
 
 
 def quadSplit(quad: Quad):
@@ -81,7 +85,7 @@ def quadBodyBump(quad):
 
 def quadInsert(quad: Quad, body: body.Body):
     """
-    Builds the quadtree, and inserts into it if needed. The Big boy functiuon (tm)
+    Builds the quadtree, and inserts into it if needed. The Big boy function (tm)
     """
     # Step One - See if the Quad we are in has no children, handle.
     if quad.numBody == 0:
@@ -91,15 +95,29 @@ def quadInsert(quad: Quad, body: body.Body):
     
     # Step Two - handle the cases where the quad is NOT empty - For one body
     elif quad.numBody == 1:
-        quadSplit(quad)
-        quadBodyBump(quad)
-        quad.numBody += 1
-        quadInsert(quad.Children[whichQuad(quad, body.position)], body)
+        # Check to see if the body has the same position
+        if np.array_equal(quad.cBody.position, body.position): # type: ignore
+            quad.cBody.mass += body.mass # type: ignore
+            #print(te)
+            #print(quad.cBody.position, body.position)
+        else:
+            quadSplit(quad)
+            quadBodyBump(quad)
+            quad.numBody += 1
+            #print("about to insert")
+            #traceback.print_stack()
+            quadInsert(quad.Children[whichQuad(quad, body.position)], body)
+            #print("inserted")
+            #quad.deepReport(0)
 
     # Step Three - handle the case where the quad is NOT empty AND it has already been split
     else:
         quad.numBody += 1
+        #print("about to insert for non-empty case")
+        #traceback.print_stack()
         quadInsert(quad.Children[whichQuad(quad, body.position)], body)
+        #print("inserted")
+        #quad.deepReport(0)
 
 
 def sumCOM(coms):
@@ -136,3 +154,5 @@ def quadCOM(quad: Quad):
         quad.mass = com[0]
         quad.COM = com[1]
         return [quad.mass, quad.COM]
+    
+

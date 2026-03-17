@@ -10,3 +10,6 @@ class Body:
     def update(self, dt):
         self.vel = np.add(self.vel, np.multiply(self.acc, dt))
         self.position = np.add(self.position, np.multiply(self.vel, dt))
+
+    def applyForce(self, forceVec):
+        self.acc = np.divide(forceVec, self.mass)
