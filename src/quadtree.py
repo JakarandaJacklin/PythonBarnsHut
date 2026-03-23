@@ -98,17 +98,13 @@ def quadInsert(quad: Quad, body: body.Body):
         # Check to see if the body has the same position
         if np.array_equal(quad.cBody.position, body.position): # type: ignore
             quad.cBody.mass += body.mass # type: ignore
-            #print(te)
-            #print(quad.cBody.position, body.position)
+            print("yikes")
         else:
+            # Split the quad, bump it accordingly, and 
             quadSplit(quad)
             quadBodyBump(quad)
             quad.numBody += 1
-            #print("about to insert")
-            #traceback.print_stack()
             quadInsert(quad.Children[whichQuad(quad, body.position)], body)
-            #print("inserted")
-            #quad.deepReport(0)
 
     # Step Three - handle the case where the quad is NOT empty AND it has already been split
     else:
@@ -118,6 +114,7 @@ def quadInsert(quad: Quad, body: body.Body):
         quadInsert(quad.Children[whichQuad(quad, body.position)], body)
         #print("inserted")
         #quad.deepReport(0)
+
 
 
 def sumCOM(coms):
