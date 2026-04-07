@@ -47,7 +47,7 @@ def quadForceCalc(quad : qt.Quad, body : bd.Body, rem_list):
     # Case one and halting condition: when we can use the Quad's COM approximation
     dist = findDist(quad.COM, body.position)
     # Also handle if the body is trying to find the COM of itself or a body that has the same position as it
-    if dist == 0:
+    if dist < np.sqrt(body.mass):#== 0:
         # First check to see if the body is the same object as this one
         if quad.cBody == None:
             #print("This is incredibly rare, but okay")
@@ -110,9 +110,13 @@ def removeExcessBodies(rem_list, bodies):
     #te = time.time()
     for i in rem_list:
         if i[0].mass < i[1].mass:
-            bodies.remove(i[0])
+            if i in bodies:
+                bodies.remove(i[0])
+                i[1].mass = i[1].mass + i[0].mass
         else:
-            bodies.remove(i[1])
+            if i[1] in bodies:
+                bodies.remove(i[1])
+                i[0].mass = i[0].mass + i[1].mass
     #te = time.time() - te
     #print("it took", round(te * 1000), "ms to remove")
 

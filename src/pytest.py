@@ -6,16 +6,16 @@ import numpy as np
 
 sys.setrecursionlimit(20000)
 
-simulator.changeQuads([0,0], 500)
-bodies = simulator.initBodies(250, 1, 15, 0, 500)
-simulator.changeG(0.5)
+simulator.changeQuads([0,0], 800)
+bodies = simulator.initBodies(800, 1, 15, 0, 800)
+simulator.changeG(0.01)
 
 
 
 pygame.init() #
 
 # Set the window size
-screen_width, screen_height = 500, 500
+screen_width, screen_height = 800, 800
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("My Pygame Window") #
 
