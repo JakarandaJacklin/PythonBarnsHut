@@ -47,15 +47,18 @@ def quadForceCalc(quad : qt.Quad, body : bd.Body, rem_list):
     # Case one and halting condition: when we can use the Quad's COM approximation
     dist = findDist(quad.COM, body.position)
     # Also handle if the body is trying to find the COM of itself or a body that has the same position as it
-    if dist < np.sqrt(body.mass):#== 0:
+    if dist < (np.sqrt(body.mass) * merg_scale):#== 0:
         # First check to see if the body is the same object as this one
         if quad.cBody == None:
             #print("This is incredibly rare, but okay")
             pass
         elif body == quad.cBody:
             pass
-        else:
+        elif dist == 0:
             rem_list.append([body, quad.cBody])
+        else:
+            if dist_merg == True:
+                rem_list.append([body, quad.cBody])
         return [0, 0]
 
 
@@ -139,6 +142,9 @@ quad_size = 100
 dist_scale = 1
 # Functions to change global values
 
+dist_merg = False
+merg_scale = 1
+
 def changeG(value):
     global g_value
     g_value = value
@@ -159,6 +165,11 @@ def changeBodis(mass_r, pos_r):
     mass_range = mass_r
     position_range = pos_r
 
+def changeMerge(vale, value):
+    global dist_merg
+    global merg_scale
+    dist_merg = vale
+    merg_scale = value
 
 
 
@@ -206,6 +217,7 @@ def step(bodies, delta=False):
     tree = buildTree(tree, bodies)
     calcCOM(tree)
     bodyForceSum(tree, bodies)
+    return tree
 
 
 
