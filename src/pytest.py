@@ -50,7 +50,7 @@ while running:
     screen.fill((0, 0, 0)) # Fill the screen with black
     for i in bodies:
         pygame.draw.circle(screen, (255, 255, 255), i.position, np.sqrt(i.mass))
-    drawQuads(tree, screen)
+        drawQuads(tree, screen)
     # Draw other game elements here...
 
     # 4. Update the display to show the new frame
